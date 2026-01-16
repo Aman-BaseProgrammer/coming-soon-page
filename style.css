@@ -83,8 +83,8 @@ body {
 }
 
 /* Background image layer - Light theme */
-body {
-    background-image: url('light.jpg');
+body { 
+    background-image: url('https://raw.githubusercontent.com/Aman-BaseProgrammer/coming-soon-page/main/light.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -1125,3 +1125,4 @@ a:focus-visible {
         animation: none;
     }
 }
+
