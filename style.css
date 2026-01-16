@@ -93,7 +93,7 @@ body {
 
 /* Background image layer - Dark theme */
 [data-theme="dark"] body {
-    background-image: url('dark.jpg');
+    background-image: url('https://raw.githubusercontent.com/Aman-BaseProgrammer/coming-soon-page/main/dark.jpg');
 }
 
 /* Overlay for background image - ensures readability and adds premium feel */
@@ -1125,4 +1125,5 @@ a:focus-visible {
         animation: none;
     }
 }
+
 
