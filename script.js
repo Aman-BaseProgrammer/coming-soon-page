@@ -2,17 +2,8 @@
 // COUNTDOWN TIMER (15 DAYS)
 // ============================================
 
-// Set the launch date to 15 days from now
-const launchDate = new Date();
-launchDate.setDate(launchDate.getDate() + 15);
-// Store in localStorage if not already set
-if (!localStorage.getItem('launchDate')) {
-    localStorage.setItem('launchDate', launchDate.toISOString());
-} else {
-    // Use stored launch date
-    const storedDate = localStorage.getItem('launchDate');
-    launchDate.setTime(new Date(storedDate).getTime());
-}
+// Set the launch date to February 1st, 2026 at 00:00
+const launchDate = new Date('2026-02-01T00:00:00');
 
 function updateCountdown() {
     const now = new Date().getTime();
