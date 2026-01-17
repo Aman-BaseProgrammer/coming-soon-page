@@ -42,7 +42,6 @@ updateCountdown();
 const countdownInterval = setInterval(updateCountdown, 1000);
 
 
-
 // ============================================
 // EMAIL FORM HANDLING
 // ============================================
@@ -70,22 +69,7 @@ signupForm.addEventListener('submit', async (e) => {
     
     try {
         // Simulate API call (replace with actual endpoint)
-        const response = await fetch(
-  'https://mantis-notify-backend.aman-d96.workers.dev',
-  {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ email })
-  }
-);
-
-const result = await response.json();
-
-if (!response.ok || !result.success) {
-  throw new Error(result.message || 'Signup failed');
-}
+        await simulateAPICall(email);
         
         // Success state with animation
         const inputWrapper = signupForm.querySelector('.input-wrapper');
@@ -138,6 +122,24 @@ function showMessage(message, type) {
         formMessage.textContent = '';
         formMessage.className = 'form-message';
     }, 5000);
+}
+
+/**
+ * Simulate API call for demo purposes
+ * Replace this with your actual API endpoint
+ */
+function simulateAPICall(email) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            // Simulate success (90% of the time)
+            if (Math.random() > 0.1) {
+                console.log('Email submitted:', email);
+                resolve();
+            } else {
+                reject(new Error('Simulated error'));
+            }
+        }, 1000);
+    });
 }
 
 /**
@@ -219,7 +221,7 @@ if ('fonts' in document) {
 /**
  * Enhanced keyboard navigation for accessibility
  */
-document.addEventListener('keydown', (e) => {
+// Removed theme toggle keyboard shortcut since theme toggle is removed
 
 
 // ============================================
@@ -259,5 +261,3 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
-
-
