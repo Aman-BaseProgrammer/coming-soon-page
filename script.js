@@ -42,32 +42,6 @@ updateCountdown();
 const countdownInterval = setInterval(updateCountdown, 1000);
 
 
-// ============================================
-// THEME MANAGEMENT
-// ============================================
-
-const themeToggle = document.querySelector('.theme-toggle');
-const html = document.documentElement;
-
-// Check for saved theme preference or default to light
-const savedTheme = localStorage.getItem('theme') || 'light';
-html.setAttribute('data-theme', savedTheme);
-
-// Theme toggle handler
-themeToggle.addEventListener('click', () => {
-    const currentTheme = html.getAttribute('data-theme');
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    
-    html.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-    
-    // Add a subtle animation to the button
-    themeToggle.style.transform = 'rotate(360deg)';
-    setTimeout(() => {
-        themeToggle.style.transform = 'rotate(0deg)';
-    }, 400);
-});
-
 
 // ============================================
 // EMAIL FORM HANDLING
@@ -246,12 +220,6 @@ if ('fonts' in document) {
  * Enhanced keyboard navigation for accessibility
  */
 document.addEventListener('keydown', (e) => {
-    // Toggle theme with Ctrl/Cmd + K
-    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-        e.preventDefault();
-        themeToggle.click();
-    }
-});
 
 
 // ============================================
@@ -291,4 +259,5 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
 
