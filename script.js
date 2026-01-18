@@ -121,16 +121,15 @@ function showMessage(message, type) {
 function simulateAPICall(email) {
     return new Promise((resolve, reject) => {
         // Google Apps Script URL
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbyop-tDyVfxJF5WMirxSg6h50ApZZ_-1vxeGsXoeuihN2YLdUbE89V-jL9WkwNNDR2b/exec';
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbz_xJPpAserz8P4c9fWf6fQx4ZJBb7nrA76boDibyYi-GHyn71LyZq1va5z3_COytFn/exec';
         
-        // Create form data
-        const formData = new FormData();
-        formData.append('email', email);
-        
-        // Submit to Google Apps Script
+        // Submit to Google Apps Script with JSON payload
         fetch(scriptURL, {
             method: 'POST',
-            body: formData,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email: email }),
             mode: 'no-cors' // Required for Google Apps Script
         })
         .then(response => {
