@@ -103,17 +103,24 @@ async function submitEmailToSheet(email) {
     'https://script.google.com/macros/s/AKfycbzPD5yWJpAWK69tIQGftYfLOJ6m_1XsQj6mgAIQAaAGkP4oHbZ2HtAgLidk6Dt9vzyP/exec';
 
   const res = await fetch(scriptURL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email }),
-  });
-
-  if (!res.ok) {
-    throw new Error('Failed to submit email');
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({ email })
+})
+.then(res => res.json())
+.then(data => {
+  if (data.success) {
+    showMessage("✨ Thank you! We'll notify you when we launch.", "success");
+  } else {
+    showMessage(data.error || "Something went wrong.", "error");
   }
-
-  return res.json();
-}
+})
+.catch(err => {
+  console.error(err);
+  showMessage("Something went wrong. Please try again.", "error");
+});
 
 
 // ============================================
@@ -152,4 +159,5 @@ document.addEventListener('keydown', (e) => {
     setTimeout(() => (icon.style.animation = ''), 1000);
   }
 });
+
 
