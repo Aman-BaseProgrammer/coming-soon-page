@@ -116,20 +116,31 @@ function showMessage(message, type) {
 }
 
 /**
- * Simulate API call for demo purposes
- * Replace this with your actual API endpoint
+ * Submit email to Google Apps Script
  */
 function simulateAPICall(email) {
     return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            // Simulate success (90% of the time)
-            if (Math.random() > 0.1) {
-                console.log('Email submitted:', email);
-                resolve();
-            } else {
-                reject(new Error('Simulated error'));
-            }
-        }, 1000);
+        // Google Apps Script URL
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyop-tDyVfxJF5WMirxSg6h50ApZZ_-1vxeGsXoeuihN2YLdUbE89V-jL9WkwNNDR2b/exec';
+        
+        // Create form data
+        const formData = new FormData();
+        formData.append('email', email);
+        
+        // Submit to Google Apps Script
+        fetch(scriptURL, {
+            method: 'POST',
+            body: formData,
+            mode: 'no-cors' // Required for Google Apps Script
+        })
+        .then(response => {
+            console.log('Email submitted to Google Sheet:', email);
+            resolve();
+        })
+        .catch(error => {
+            console.error('Error submitting email:', error);
+            reject(error);
+        });
     });
 }
 
