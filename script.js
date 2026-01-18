@@ -106,7 +106,7 @@ function showMessage(message, type) {
 
 async function submitEmailToSheet(email) {
   const scriptURL =
-    'https://script.google.com/macros/s/AKfycbzPD5yWJpAWK69tIQGftYfLOJ6m_1XsQj6mgAIQAaAGkP4oHbZ2HtAgLidk6Dt9vzyP/exec';
+    'https://script.google.com/macros/s/AKfycbwbqZH1acbmlgFPVhF0ys-wUH5DSP-Ck-7jLeX7XnldNYNOXpV5pD52eDovDtoL6C9V/exec';
 
   const response = await fetch(scriptURL, {
     method: 'POST',
@@ -163,3 +163,4 @@ document.addEventListener('keydown', (e) => {
     setTimeout(() => (icon.style.animation = ''), 1000);
   }
 });
+
