@@ -46,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
 
     const email = emailInput.value.trim();
+
     if (!isValidEmail(email)) {
       showMessage('Please enter a valid email address.', 'error');
       return;
@@ -55,15 +56,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const buttonText = submitButton.querySelector('.button-text');
 
     submitButton.disabled = true;
-    buttonText.textContent = 'Submitting...';
+    buttonText.textContent = 'Submitting…';
 
     try {
-      await submitEmailToSheet(email);
+      const result = await submitEmailToSheet(email);
 
-      showMessage('✨ You’re on the list. We’ll notify you at launch.', 'success');
-      emailInput.value = '';
+      if (result.success) {
+        showMessage('✨ You’re on the list. We’ll notify you at launch.', 'success');
+        emailInput.value = '';
+        trackSignup(email);
+      } else {
+        showMessage(result.error || 'Something went wrong.', 'error');
+      }
 
-      trackSignup(email);
     } catch (err) {
       console.error(err);
       showMessage('⚠️ Something went wrong. Please try again.', 'error');
@@ -87,6 +92,7 @@ function showMessage(message, type) {
   const el = document.getElementById('formMessage');
   el.textContent = message;
   el.className = `form-message ${type}`;
+
   setTimeout(() => {
     el.textContent = '';
     el.className = 'form-message';
@@ -102,25 +108,23 @@ async function submitEmailToSheet(email) {
   const scriptURL =
     'https://script.google.com/macros/s/AKfycbzPD5yWJpAWK69tIQGftYfLOJ6m_1XsQj6mgAIQAaAGkP4oHbZ2HtAgLidk6Dt9vzyP/exec';
 
-  const res = await fetch(scriptURL, {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({ email })
-})
-.then(res => res.json())
-.then(data => {
-  if (data.success) {
-    showMessage("✨ Thank you! We'll notify you when we launch.", "success");
-  } else {
-    showMessage(data.error || "Something went wrong.", "error");
+  const response = await fetch(scriptURL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      email,
+      company: '' // honeypot field (must stay empty)
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Network error');
   }
-})
-.catch(err => {
-  console.error(err);
-  showMessage("Something went wrong. Please try again.", "error");
-});
+
+  return await response.json();
+}
 
 
 // ============================================
@@ -159,5 +163,3 @@ document.addEventListener('keydown', (e) => {
     setTimeout(() => (icon.style.animation = ''), 1000);
   }
 });
-
-
